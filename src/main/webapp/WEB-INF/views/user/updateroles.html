@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Update Role</div>
+        <div class="card-body">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <p for="rolesOutOfUser">Quyen han khac</p>
+                        <select
+                                class="form-select-button" id="rolesOutOfUser" multiple>
+                            <option
+                                    th:each="rolesOutOfUser : ${rolesOutOfUser}"
+                                    th:id="${rolesOutOfUser.id}"
+                                    th:value="${rolesOutOfUser.id}"
+                                    th:text="${rolesOutOfUser.description} "></option>
+                        </select>
+                        <button class="btn btn-success" onclick="chagneRoleOutOfUser()">cap quyen su dung quyen</button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p>Quyen cua nhan vien</p>
+                        <select class="form-select-button" id="rolesOfUser" multiple>
+                            <option
+                                    th:each="rolesOfUser : ${rolesOfUser}"
+                                    th:value="${rolesOfUser.id}"
+                                    th:text="${rolesOfUser.description}"></option>
+                        </select>
+                        <button class="btn btn-success" onclick="chagneRoleOfUser()">huy quyen su dung quyen</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row text-center">
+                <div class="col-sm-6">
+                    <form method="post">
+                        <input type="hidden" name="roles" id="roles">
+                        <input type="submit" class="btn btn-success" value="Save" onclick="show()"/>
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-success" href="/listuser">Cancel</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/js/updateRolesOfUser.js"></script>
+</html>

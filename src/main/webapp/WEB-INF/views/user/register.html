@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Register an Account</div>
+        <div class="card-body">
+            <form method="post" action="/register">
+                <div class="form-group">
+                    <div class="form-row">
+
+                        <label>Username</label>
+                        <input name="username"
+                               class="form-control" placeholder="Enter Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <select name="roles" id="" multiple>
+                            <option th:each="role : ${roles}"
+                                    th:value="${role.id}"
+                                    th:text="${role.description}"></option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" value="Register"/>
+            </form>
+        </div>
+    </div>
+</html>

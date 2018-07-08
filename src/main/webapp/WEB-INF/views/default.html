@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:fragment="headerfragment">
+    <meta charset="ISO-8859-1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">-->
+    <link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/headerStyle.css" rel="stylesheet">
+    <link href="/css/messagesBox.css" rel="stylesheet">
+    <title th:text="${title}">Zera</title>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <!-- Custom scripts for all pages-->
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+    <script src="/js/defaultTemplate.js"></script>
+    <script src="/js/jquery-easing/jquery.easing.js"></script>
+    <script th:inline="javascript" th:if="${#request.userPrincipal!=null}">
+        /*<![CDATA[*/
+        var principalName = /*[[${#request.userPrincipal.name}]]*/ 'username';
+        /*]]>*/
+    </script>
+
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+
+<div th:replace="fragments/header :: header">
+    Header
+</div>
+
+<div class="content-wrapper" id="contentWrapper" onscroll="onScroll()">
+    <div th:replace="${view}">
+        content
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer">
+    Footer
+</div>
+<script>
+
+</script>
+</body>
+</html>

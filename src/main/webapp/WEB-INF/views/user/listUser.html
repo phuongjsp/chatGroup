@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">List User -
+            <a href="/register">Add new User</a></div>
+        <div class="card-body">
+            <div class="form-group">
+                <div class="form-row">
+                    <ul>
+                        <li th:each="u : ${list}">
+                            <a th:href="@{/updateroles/}+${u.username}"
+                               th:text="${u.username}"></a>
+                            - <a th:href="@{/listuser/changeAble/}+${u.username}"
+                                 th:text="${u.enable}?'Disable':'Enable'">Changable</a>
+                            - <a th:href="@{/listuser/delete/}+${u.username}">Delete</a>
+                            <ul>
+                                <li th:each="r :${u.roles}">
+                                    <span th:text="${r.description}"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

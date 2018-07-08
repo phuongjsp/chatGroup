@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<link href="/css/postMessages.css" rel="stylesheet">
+<div class="panel panel-white post panel-shadow">
+    <div class="post-heading">
+        <div class="pull-left ">
+            <img class="img-circle avatar " id="avatarOfUser" alt="User">
+        </div>
+        <div class="full-left   ">
+            Đăng Thông báo mới
+        </div>
+        <!--<div>-->
+        <!--Chia sẻ với :-->
+        <!--<select name="" id="">-->
+        <!--<option>Publish</option>-->
+        <!--<option>with friends</option>-->
+        <!--<option>Private</option>-->
+        <!--</select>-->
+        <!--</div>-->
+    </div>
+    <div class="post-footer">
+
+        <div class="form-group">
+            <label class=" ml-3 mr-3" for="titelPost">Title of post </label>
+            <input type="text" id="titelPost" placeholder="Enter Title of Post">
+            <div class="input-group clearfix">
+                <textarea id="contentPost" class="form-control" placeholder="Enter content of Post"></textarea>
+                <input type="button" class="btn btn-success" id="sendPost" value="Post">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-link mr-3 d-inline-block" id="addnewUser"
+                        data-toggle="modal" data-target="#tagUserModal">
+                    <i class="stat-item fa fa-tags ">Gắn thẻ</i></button>
+            </div>
+            <div class="col-sm-12">
+                <div class="file">File Anh 1</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="fade modal" id="tagUserModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="modal-title">
+                            <div class="form-group">
+                                <div class="input-group clearfix">
+                                    <input type="text" id="findTagsUser"
+                                           placeholder="Enter name..." class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="tag-hidden border-shadow" id="listWithTag">
+
+                        </div>
+                        <ul class="list-group" id="ulListTag">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" id="exitModalTags" data-dismiss="modal">Exit</button>
+        </div>
+    </div>
+</div>
+<div class="row" id="listPost">
+
+    <div id="loadMorePost" class="col-sm-12 text-center btn btn-outline-info">
+        <a href="javascript:loadMorePost()">
+                <span>
+                    Load More ...
+                </span>
+        </a>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var username = /*[[${#request.userPrincipal.name}]]*/ 'username';
+
+    /*]]>*/
+</script>
+<script src="/js/postMessages.js"></script>
+<script src="/js/createPostMessages.js"></script>
+<script>
+    document.getElementById("avatarOfUser").classList.add("avatar" + username);
+    ajaxGetAvatar(username);
+</script>
+</html>

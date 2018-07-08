@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<noscript>
+    <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+<link href="/css/chatRoom.css" rel="stylesheet">
+
+<div id="chat-page">
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="row">
+                <div class="col-sm-6 title">Spring WebSocket Chat Demo</div>
+                <div class="col-sm-3 quit-room">
+                    <button class="btn btn-outline-info"
+                            data-toggle="modal" data-target="#userInRoomModal">List User in Room
+                    </button>
+                </div>
+                <div class="col-sm-3 quit-room">
+                    <button class="btn btn-outline-info"
+                            data-toggle="modal" data-target="#quitRoomModal">Quit Room
+                    </button>
+                </div>
+                <div class="col-sm-4" th:if="${isCreate}"></div>
+                <div class="col-sm-4" th:if="${isCreate}">
+                    <button class="btn btn-outline-info" id="addnewUser"
+                            data-toggle="modal" data-target="#addUserRoomModal">Add new User
+                    </button>
+                </div>
+                <div class="col-sm-4" th:if="${isCreate}"></div>
+
+            </div>
+        </div>
+
+        <ul id="messageArea">
+            <span class="full-bar">NO DATA</span>
+            <div th:each="m : ${oldMessages}" th:id="${m.id}">
+                <div class="chat-message right" th:if="${m.fromUser}==${#request.userPrincipal.name}">
+                    <span th:text="${m.fromUser}">User</span>
+                    <span class="smaller" style="padding-left: 100px"
+                          th:text="${#dates.format(m.time,'HH:mm,dd/MM/yyyy')}"></span>
+                    <p th:text="${m.content}">Content</p>
+                </div>
+                <div class="chat-message left" th:if="${m.fromUser}!=${#request.userPrincipal.name}">
+                    <i style="background-color: rgb(33, 150, 243);" th:text="${m.fromUser[0]}"></i>
+                    <span th:text="${m.fromUser}">User</span>
+                    <span class="smaller" style="padding-left: 100px"
+                          th:text="${#dates.format(m.time,'HH:mm,dd/MM/yyyy')}"></span>
+                    <p th:text="${m.content}">Content</p>
+                </div>
+            </div>
+        </ul>
+        <form id="messageForm" name="messageForm" nameForm="messageForm">
+            <div class="form-group">
+                <div class="input-group clearfix">
+                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off"
+                           class="form-control"/>
+                    <button type="submit" class="primary">Send</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="fade modal" id="userInRoomModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">List User In Room</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group" id="listGroupUser">
+                    <li class="list-group-item" th:each="u : ${userInRoom}" th:id="@{'user'+${u}}">
+                        <div class="row" th:if="${isCreate}">
+                            <div th:if="${u}==${#request.userPrincipal.name}">
+                                <span class="col-sm-12  btn-success">
+                                <i class="fa fa-group"></i>
+                                <span th:text="${u}"></span>
+                           </span>
+                            </div>
+                            <span th:if="${u}!=${#request.userPrincipal.name}"
+                                  class="col-sm-4 btn btn-info btn-block">
+                                <i class="fa fa-group"></i>
+                                <span th:text="${u}"></span>
+                           </span>
+                            <a th:if="${u}!=${#request.userPrincipal.name}"
+                               th:href="@{'/updateRoom/'+${room}+'/'+${u}}" class="col-sm-4 btn btn-outline-success">
+                                <i class="fa fa-level-up">Up to lead</i>
+                            </a>
+                            <button th:if="${u}!=${#request.userPrincipal.name}" data-dismiss="modal"
+                                    th:onclick="@{'kickUser(\''+${u}+'\');'}" class="col-sm-4 btn btn-outline-danger">
+                                <i class="fa fa-dot-circle-o">Kick out</i>
+                            </button>
+                        </div>
+                        <div th:if="${isCreate}==false">
+                           <span class="  btn btn-info btn-block">
+                        <i class="fa fa-group"></i>
+                        <span th:text="${u}"></span>
+                           </span>
+
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Exit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fade modal" id="quitRoomModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="modal-title"> Are you want quit room ?</h2>
+                    </div>
+                    <a th:href="@{/quit/}+${room}" class="col-sm-6 btn btn-success">Yes I'm want it</a>
+                    <button type="button" class="col-sm-6  btn btn-warning" data-dismiss="modal">Exit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="fade modal" id="addUserRoomModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="modal-title">
+                            <div class="form-group">
+                                <div class="input-group clearfix">
+                                    <input type="text" id="findUser"
+                                           placeholder="Enter name..." class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <ul class="list-group" id="ulListFindUser">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Exit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var room = /*[[${room}]]*/ 'path';
+    var username = /*[[${#request.userPrincipal.name}]]*/ 'username';
+    /*]]>*/
+</script>
+<script src="/js/chatroom.js"></script>
+</html>
